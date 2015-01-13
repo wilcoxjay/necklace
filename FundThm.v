@@ -145,8 +145,14 @@ Section FundThm.
         (prenecklace (snoc w b) <-> sle (nth_from_end p w default) b) /\
         (b = nth_from_end p w default -> lyn (snoc w b) = p) /\
         (slt (nth_from_end p w default) b -> lyn (snoc w b) = n).
+  Proof.
+    admit.
+  Qed.
+
+End FundThm.
 
 
+(*
 Section FundThm'.
   Context `{ sigma : alphabet }.
 
@@ -356,6 +362,7 @@ lyn(\alpha b) =
   | n     else.
 *)
 
+*)
 
 
 
