@@ -1,4 +1,5 @@
 Require Import Le Gt Minus Bool Setoid.
+Require Import Program.
 
 Set Implicit Arguments.
 
@@ -31,6 +32,13 @@ Notation "x +++ y" := (app x y)
                      (at level 61, left associativity).
 
 
+Fixpoint rev {A : Type} (l : snoclist A) : snoclist A :=
+  match l with
+    | snil => snil
+    | snoc l' a => [a] +++ (rev l')
+  end.
+
+
 Section Map.
   Variables A B : Type.
   Variable f : A -> B.
@@ -56,15 +64,25 @@ End Bool.
 
 
 Section Elmts.
-
   Variable A : Type.
 
-  Fixpoint nth_from_end (n : nat) (l : snoclist A) (default : A) : A :=
+  Fixpoint nth_from_end (default : A) (n : nat) (l : snoclist A) : A :=
     match n, l with
-      | O, l':::x => x
-      | S n', l':::x => nth_from_end n' l' default
-      | _, [] => default
+      | O, l':::x    => x
+      | S n', l':::x => nth_from_end default n' l'
+      | _, []        => default
     end.
+
+  Definition nth default n := (compose (nth_from_end default n) rev).
+
+  Fixpoint last_n (n : nat) (l : snoclist A) : snoclist A :=
+    match n, l with
+      | 0, _ => snil
+      | _, snil => snil
+      | S n', snoc l' a => snoc (last_n n' l') a
+    end.
+  
+  Definition first_n n := (compose rev (compose (last_n n) rev)).
 
 End Elmts.
 
