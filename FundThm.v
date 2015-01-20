@@ -565,6 +565,14 @@ Section Word.
     now rewrite rot_mod.
   Qed.
 
+  Lemma wlt_aeq :
+    forall (a : letter) (w w' : word),
+      wlt w w' -> wlt (a :: w) (a :: w').
+  Proof.
+    unfold wlt.
+    auto using Lt_tl.
+  Qed.
+
   Lemma wlt_app_1 :
     forall xs ys,
       wlt xs ys ->
